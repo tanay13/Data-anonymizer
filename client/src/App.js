@@ -6,7 +6,7 @@ const App = () => (
     <h4 className="display-4 text-center mb-4">
       <i className="fab fa-react" /> React File upload
     </h4>
-    <FileUpload></FileUpload>
+    <FileUpload />
   </div>
 );
 
