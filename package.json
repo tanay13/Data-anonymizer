@@ -1,9 +1,10 @@
 {
-  "name": "data-anonymizer",
-  "version": "1.0.0",
+  "name": "netanos",
+  "version": "1.1.6",
   "description": "",
-  "main": "server.js",
+  "main": "Netanos.js",
   "scripts": {
+    "test": "mocha",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
@@ -11,21 +12,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tanay13/Data-anonymizer.git"
+    "url": "https://github.com/ben-aaron188/netanos"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tanay13/Data-anonymizer/issues"
-  },
-  "homepage": "https://github.com/tanay13/Data-anonymizer#readme",
-  "dependencies": {
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.1"
-  },
+  "keywords": [
+    "openscience",
+    "anonymization",
+    "computationallinguistics"
+  ],
+  "author": "Bennett Kleinberg (bkleiberg.net) Maximilian Mozes (mmozes.net)",
+  "license": "MIT",
   "devDependencies": {
-    "concurrently": "^6.3.0",
+    "concurrency": "^0.1.4",
+    "mocha": "^3.4.2",
     "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "concurrently": "^6.3.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "ner": "^0.2.2",
+    "pdf-parse": "^1.1.1",
+    "promise": "^8.0.0"
   }
 }

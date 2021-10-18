@@ -14,9 +14,15 @@ const FileUpload = () => {
 
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
+  const [algorithm, setAlgorithm] = useState("");
+
   const onChange = (e) => {
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
+  };
+
+  const onRadioChange = (e) => {
+    setAlgorithm(e.target.value);
   };
 
   const onSubmit = async (e) => {
@@ -24,6 +30,8 @@ const FileUpload = () => {
     const formData = new FormData();
 
     formData.append("file", file);
+
+    formData.append("algo", algorithm);
 
     try {
       const res = await axios.post("/upload", formData, {
@@ -70,6 +78,33 @@ const FileUpload = () => {
           />
           <label className="custom-file-label" htmlFor="customFile">
             {fileName}
+          </label>
+        </div>
+
+        <div class="custom-control custom-radio custom-control-inline mb-3">
+          <input
+            type="radio"
+            id="customRadioInline1"
+            name="customRadioInline"
+            class="custom-control-input"
+            value="Context-preserving anonymization"
+            onChange={onRadioChange}
+          />
+          <label class="custom-control-label" for="customRadioInline1">
+            Context-preserving anonymization
+          </label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="customRadioInline2"
+            name="customRadioInline"
+            class="custom-control-input"
+            value="Named entity-based replacement"
+            onChange={onRadioChange}
+          />
+          <label class="custom-control-label" for="customRadioInline2">
+            Named entity-based replacement
           </label>
         </div>
         <Progress percentage={uploadPercentage} />
