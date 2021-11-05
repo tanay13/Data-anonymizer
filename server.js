@@ -36,23 +36,16 @@ app.post("/upload", (req, res) => {
 
     let dataBuffer = fs.readFileSync(`./client/public/uploads/${file.name}`);
 
-    var input = "Hello my name is Tanay i am 20 years old and i ";
+    var input;
 
-    // pdf(dataBuffer).then(function (data) {
-    //   // number of pages
-    //   // console.log(data.numpages);
-    //   // // number of rendered pages
-    //   // console.log(data.numrender);
-    //   // PDF text
-    //   input = "Hello my name is Tanay i am 20 years old";
-    // });
-    netanos.ner(input, entities, function (output) {
-      console.log(output);
+    pdf(dataBuffer).then(function (data) {
+      console.log(data.text);
+      input = "" + data.text;
+      netanos.ner(input, entities, function (output) {
+        console.log(output);
+      });
     });
-    // res.json({
-    //   fileName: file.name,
-    //   filePath: `/uploads/${file.name}`,
-    // });
+    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
   });
 });
 

@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import axios from "axios";
 import Message from "./Message";
 import Progress from "./Progress";
+import { Link } from "react-router-dom";
 
 const FileUpload = () => {
   const [file, setFile] = useState("");
@@ -11,6 +12,8 @@ const FileUpload = () => {
   const [uploadedFile, setUploadedFile] = useState({});
 
   const [message, setMessage] = useState("");
+
+  const [isuploaded, setIsUploaded] = useState(false);
 
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
@@ -27,6 +30,7 @@ const FileUpload = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log(algorithm);
     const formData = new FormData();
 
     formData.append("file", file);
@@ -54,8 +58,10 @@ const FileUpload = () => {
 
       const { fileName, filePath } = res.data;
       setUploadedFile({ fileName });
+      setIsUploaded("true");
 
       setMessage("File uploaded succesfully");
+      console.log(message);
     } catch (err) {
       if (err.response.status === 500) {
         setMessage("Problem with the server");
@@ -67,6 +73,7 @@ const FileUpload = () => {
 
   return (
     <Fragment>
+      {console.log(message)}
       {message ? <Message msg={message} /> : null}
       <form onSubmit={onSubmit}>
         <div className="custom-file mb-4">
@@ -115,6 +122,14 @@ const FileUpload = () => {
           className="btn btn-primary btn-block mt-4"
         />
       </form>
+
+      {console.log(isuploaded)}
+
+      {isuploaded ? (
+        <li>
+          <Link to={{ pathname: `/preview/${fileName}` }}>particular file</Link>
+        </li>
+      ) : null}
 
       {uploadedFile ? (
         <div className="row mt-5">

@@ -1,3 +1,5 @@
+//java -mx1000m -cp "*" edu.stanford.nlp.ie.NERServer  -loadClassifier classifiers/english.mumuc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
+
 // var netanos = require('netanos');
 var netanos = require("./Netanos.js");
 var input =
