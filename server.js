@@ -23,29 +23,39 @@ app.post("/upload", (req, res) => {
       return res.status(500).send(err);
     }
 
-    var entities = {
-      person: true,
-      organization: true,
-      currency: true,
-      date: true,
-      location: true,
-      pronoun: true,
-      numeric: true,
-      other: true,
-    };
+    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+  });
+});
 
-    let dataBuffer = fs.readFileSync(`./client/public/uploads/${file.name}`);
+app.get("/preview/:filename", (req, res) => {
+  var filename = req.params.filename;
 
-    var input;
+  var entities = {
+    person: true,
+    organization: true,
+    currency: true,
+    date: true,
+    location: true,
+    pronoun: true,
+    numeric: true,
+    other: true,
+  };
 
-    pdf(dataBuffer).then(function (data) {
-      console.log(data.text);
-      input = "" + data.text;
-      netanos.ner(input, entities, function (output) {
-        console.log(output);
+  let dataBuffer = fs.readFileSync(`./client/public/uploads/${filename}`);
+
+  var input;
+  var dataOutput;
+
+  pdf(dataBuffer).then(function (data) {
+    console.log(data.text);
+    input = "" + data.text;
+    netanos.ner(input, entities, function (output) {
+      dataOutput = "" + output;
+
+      res.json({
+        dataOutput,
       });
     });
-    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
   });
 });
 
