@@ -11,7 +11,7 @@ const App = () => (
       </h4>
       <Switch>
         <Route path="/" component={Home} exact />
-        <Route path="/preview/:filename" component={Preview} />
+        <Route path="/preview/:filename/" component={Preview} />
       </Switch>
     </div>
   </BrowserRouter>

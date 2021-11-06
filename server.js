@@ -27,8 +27,9 @@ app.post("/upload", (req, res) => {
   });
 });
 
-app.get("/preview/:filename", (req, res) => {
+app.get("/preview/:filename/:algo", (req, res) => {
   var filename = req.params.filename;
+  var algo = req.params.algo;
 
   var entities = {
     person: true,
@@ -47,15 +48,25 @@ app.get("/preview/:filename", (req, res) => {
   var dataOutput;
 
   pdf(dataBuffer).then(function (data) {
-    console.log(data.text);
     input = "" + data.text;
-    netanos.ner(input, entities, function (output) {
-      dataOutput = "" + output;
+    if (algo == "NEBR") {
+      netanos.ner(input, entities, function (output) {
+        dataOutput = "" + output;
 
-      res.json({
-        dataOutput,
+        res.json({
+          dataOutput,
+        });
       });
-    });
+    }
+    if (algo == "CPA") {
+      netanos.anon(input, entities, function (output) {
+        dataOutput = "" + output;
+
+        res.json({
+          dataOutput,
+        });
+      });
+    }
   });
 });
 

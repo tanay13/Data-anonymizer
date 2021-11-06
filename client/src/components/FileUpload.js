@@ -25,7 +25,10 @@ const FileUpload = () => {
   };
 
   const onRadioChange = (e) => {
-    setAlgorithm(e.target.value);
+    if (e.target.value == "Named entity-based replacement")
+      setAlgorithm("NEBR");
+    if (e.target.value == "Context-preserving anonymization")
+      setAlgorithm("CPA");
   };
 
   const onSubmit = async (e) => {
@@ -123,11 +126,16 @@ const FileUpload = () => {
         />
       </form>
 
-      {console.log(isuploaded)}
-
       {isuploaded ? (
         <li>
-          <Link to={{ pathname: `/preview/${fileName}` }}>particular file</Link>
+          <Link
+            to={{
+              pathname: `/preview/${fileName}`,
+              state: { algo: algorithm },
+            }}
+          >
+            particular file
+          </Link>
         </li>
       ) : null}
 
