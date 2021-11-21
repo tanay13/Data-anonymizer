@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import Styles from "./Preview.module.css";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
 import Textarea from "../components/Textarea";
 
 const Preview = () => {
@@ -34,17 +37,24 @@ const Preview = () => {
 
   return (
     <>
-      <div>
+      <div className={Styles.preview}>
+        <h3>Preview of anonymized text of your file - {filename}</h3>
         <PDFExport
           ref={pdfExportComponent}
-          paperSize="auto"
+          paperSize="A4"
           margin={40}
           fileName={`Anonymized File${new Date().getFullYear()}`}
         >
-          <h3>Preview of anonymized text of your file - {filename}</h3>
           <Textarea text={text} />
         </PDFExport>
-        <button onClick={exportPDFWithComponent}>Download</button>
+        <LoadingButton
+          onClick={exportPDFWithComponent}
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          variant="outlined"
+        >
+          Download
+        </LoadingButton>
       </div>
     </>
   );
