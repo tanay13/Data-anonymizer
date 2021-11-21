@@ -1,0 +1,41 @@
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  margin-right: 0;
+}
+
+.menu {
+  font-size: 1rem;
+}
+
+a {
+  font-size: 1.2rem;
+}
+
+MenuItem {
+  margin-top: 2em;
+  overflow-wrap: normal;
+}
+
+.menuBut {
+  width: 100%;
+  height: 70px;
+  margin-bottom: 40px;
+  padding-top: 30px;
+  padding-left: 30px;
+}
+
+.menuPar {
+  width: 100%;
+  height: 100%;
+}
+
+.menuI {
+  text-decoration: none;
+  color: rgb(214, 212, 212);
+}
+
+.menuI:hover {
+  text-decoration: none;
+  color: white;
+}

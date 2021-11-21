@@ -1,0 +1,11 @@
+.container {
+  padding-top: 40px;
+  text-align: center;
+  width: 79%;
+}
+
+.form {
+  margin: auto;
+  margin-top: 100px;
+  width: 50%;
+}

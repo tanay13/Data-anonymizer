@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import Textarea from "../components/Textarea";
-import jsPDF from "jspdf";
 
 const Preview = () => {
   const { filename } = useParams();
@@ -10,7 +10,7 @@ const Preview = () => {
 
   const algo = par.state.algo;
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState(" ");
 
   useEffect(() => {
     axios
@@ -24,18 +24,29 @@ const Preview = () => {
       });
   }, []);
 
-  const pdfGenerate = () => {
-    var doc = new jsPDF("landscape", "px", "a4", "false");
-    doc.text(60, 60, text);
-    doc.save("b.pdf");
+  const pdfExportComponent = React.useRef(null);
+
+  const exportPDFWithComponent = () => {
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save();
+    }
   };
 
   return (
-    <div>
-      <h3>Preview of anonymized text of your file - {filename}</h3>
-      <Textarea text={text} />
-      <button onClick={pdfGenerate}>Download</button>
-    </div>
+    <>
+      <div>
+        <PDFExport
+          ref={pdfExportComponent}
+          paperSize="auto"
+          margin={40}
+          fileName={`Anonymized File${new Date().getFullYear()}`}
+        >
+          <h3>Preview of anonymized text of your file - {filename}</h3>
+          <Textarea text={text} />
+        </PDFExport>
+        <button onClick={exportPDFWithComponent}>Download</button>
+      </div>
+    </>
   );
 };
 

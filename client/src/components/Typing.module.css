@@ -1,0 +1,22 @@
+.typewriter {
+  background: linear-gradient(
+      to bottom,
+      rgba(29, 31, 32, 0.815) 0%,
+      rgba(29, 26, 26, 0.541) 59%,
+      rgba(25, 25, 26, 0.541) 0%
+    ),
+    url("./Data-Privacy.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-size: 3rem;
+  width: 80%;
+  text-align: center;
+  color: white;
+  padding-top: 5em;
+  height: 100vh;
+  font-weight: 800;
+}
+
+.type {
+  width: 50%;
+  margin-top: 70px;
+}

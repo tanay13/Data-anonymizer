@@ -1,13 +1,19 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import Message from "./Message";
 import Progress from "./Progress";
+import Styles from "./FileUpload.module.css";
 import { Link } from "react-router-dom";
 
 const FileUpload = () => {
+  const p = useLocation();
+
   const [file, setFile] = useState("");
 
   const [fileName, setFileName] = useState("Choose File");
+
+  const [header, setHeader] = useState("");
 
   const [uploadedFile, setUploadedFile] = useState({});
 
@@ -19,16 +25,18 @@ const FileUpload = () => {
 
   const [algorithm, setAlgorithm] = useState("");
 
+  useEffect(() => {
+    if (p.pathname.slice(1) === "CPA")
+      setHeader("Context-preserving anonymization");
+    else if (p.pathname.slice(1) === "NEBR")
+      setHeader("Named entity-based replacement");
+
+    setAlgorithm(p.pathname.slice(1));
+  }, []);
+
   const onChange = (e) => {
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
-  };
-
-  const onRadioChange = (e) => {
-    if (e.target.value == "Named entity-based replacement")
-      setAlgorithm("NEBR");
-    if (e.target.value == "Context-preserving anonymization")
-      setAlgorithm("CPA");
   };
 
   const onSubmit = async (e) => {
@@ -77,80 +85,57 @@ const FileUpload = () => {
   return (
     <Fragment>
       {console.log(message)}
-      {message ? <Message msg={message} /> : null}
-      <form onSubmit={onSubmit}>
-        <div className="custom-file mb-4">
-          <input
-            type="file"
-            className="custom-file-input"
-            id="customFile"
-            onChange={onChange}
-          />
-          <label className="custom-file-label" htmlFor="customFile">
-            {fileName}
-          </label>
-        </div>
 
-        <div class="custom-control custom-radio custom-control-inline mb-3">
-          <input
-            type="radio"
-            id="customRadioInline1"
-            name="customRadioInline"
-            class="custom-control-input"
-            value="Context-preserving anonymization"
-            onChange={onRadioChange}
-          />
-          <label class="custom-control-label" for="customRadioInline1">
-            Context-preserving anonymization
-          </label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input
-            type="radio"
-            id="customRadioInline2"
-            name="customRadioInline"
-            class="custom-control-input"
-            value="Named entity-based replacement"
-            onChange={onRadioChange}
-          />
-          <label class="custom-control-label" for="customRadioInline2">
-            Named entity-based replacement
-          </label>
-        </div>
-        <Progress percentage={uploadPercentage} />
-
-        <input
-          type="submit"
-          value="Upload"
-          className="btn btn-primary btn-block mt-4"
-        />
-      </form>
-
-      {isuploaded ? (
-        <li>
-          <Link
-            to={{
-              pathname: `/preview/${fileName}`,
-              state: { algo: algorithm },
-            }}
-          >
-            particular file
-          </Link>
-        </li>
-      ) : null}
-
-      {uploadedFile ? (
-        <div className="row mt-5">
-          <div className="col-md-6 m-auto">
-            <h3 className="text-center">{uploadedFile.fileName}</h3>
-            <image
-              style={{ width: "100%" }}
-              src={uploadedFile.filePath}
-              alt=""
+      <div className={Styles.container}>
+        <h3> {header} </h3>
+        {message ? <Message msg={message} /> : null}
+        <form className={Styles.form} onSubmit={onSubmit}>
+          <div className="custom-file mb-4">
+            <input
+              type="file"
+              className="custom-file-input"
+              id="customFile"
+              onChange={onChange}
             />
+            <label className="custom-file-label" htmlFor="customFile">
+              {fileName}
+            </label>
           </div>
-        </div>
-      ) : null}
+
+          <Progress percentage={uploadPercentage} />
+
+          <input
+            type="submit"
+            value="Upload"
+            className="btn btn-primary btn-block mt-4"
+          />
+        </form>
+        {isuploaded ? (
+          <li>
+            <Link
+              to={{
+                pathname: `/preview/${fileName}`,
+                state: { algo: algorithm },
+              }}
+            >
+              particular file
+            </Link>
+          </li>
+        ) : null}
+
+        {uploadedFile ? (
+          <div className="row mt-5">
+            <div className="col-md-6 m-auto">
+              <h3 className="text-center">{uploadedFile.fileName}</h3>
+              <image
+                style={{ width: "100%" }}
+                src={uploadedFile.filePath}
+                alt=""
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
     </Fragment>
   );
 };

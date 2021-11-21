@@ -49,7 +49,7 @@ app.get("/preview/:filename/:algo", (req, res) => {
 
   pdf(dataBuffer).then(function (data) {
     input = "" + data.text;
-    if (algo == "NEBR") {
+    if (algo === "NEBR") {
       netanos.ner(input, entities, function (output) {
         dataOutput = "" + output;
 
@@ -58,7 +58,7 @@ app.get("/preview/:filename/:algo", (req, res) => {
         });
       });
     }
-    if (algo == "CPA") {
+    if (algo === "CPA") {
       netanos.anon(input, entities, function (output) {
         dataOutput = "" + output;
 
