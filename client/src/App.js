@@ -14,7 +14,7 @@ const App = () => (
         <Route path="/CPA" component={Form} exact />
         <Route path="/NCPA" component={Form} exact />
         <Route path="/NEBR" component={Form} exact />
-        <Route path="CNCPA" component={Form} exact />
+        <Route path="/CNCPA" component={Form} exact />
         <Route path="/preview/:filename/" component={Preview} />
       </Switch>
     </div>

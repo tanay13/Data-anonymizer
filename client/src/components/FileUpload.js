@@ -30,6 +30,10 @@ const FileUpload = () => {
       setHeader("Context-preserving anonymization");
     else if (p.pathname.slice(1) === "NEBR")
       setHeader("Named entity-based replacement");
+    else if (p.pathname.slice(1) === "NCPA")
+      setHeader("Non-context preserving anonymization");
+    else if (p.pathname.slice(1) === "CNCPA")
+      setHeader(" Combined, non-context preserving anonymization");
 
     setAlgorithm(p.pathname.slice(1));
   }, []);

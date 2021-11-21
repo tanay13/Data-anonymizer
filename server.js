@@ -67,6 +67,22 @@ app.get("/preview/:filename/:algo", (req, res) => {
         });
       });
     }
+    if (algo === "NCPA") {
+      dataOutput = "" + netanos.noncontext(input);
+
+      res.json({
+        dataOutput,
+      });
+    }
+    if (algo === "CNCPA") {
+      netanos.combined(input, entities, function (output) {
+        dataOutput = "" + output;
+
+        res.json({
+          dataOutput,
+        });
+      });
+    }
   });
 });
 
