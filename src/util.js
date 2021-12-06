@@ -1,162 +1,228 @@
 function Util() {
-    throw new Error('Util is a static class!');
+  throw new Error("Util is a static class!");
 }
 
 Util.contains = function (source, text) {
+  for (var i = 0; i < source.length; i++) {
+    var current = source[i];
 
-    for (var i = 0; i < source.length; i++) {
-        var current = source[i];
-
-        if (text.toLowerCase() == current.toLowerCase()) {
-            return true;
-        }
-
+    if (text.toLowerCase() == current.toLowerCase()) {
+      return true;
     }
+  }
 
-    return false;
-}
+  return false;
+};
 
 Util.inArray = function (element, array) {
-
-    for (var i = 0; i < array.length; i++) {
-        if (element.includes(array[i])) {
-            return true;
-        }
+  for (var i = 0; i < array.length; i++) {
+    if (element.includes(array[i])) {
+      return true;
     }
+  }
 
-    return false;
-}
+  return false;
+};
 
 Util.ident_inArray = function (element, array) {
-
-    for (var i = 0; i < array.length; i++) {
-        if (element == array[i]) {
-            return true;
-        }
+  for (var i = 0; i < array.length; i++) {
+    if (element == array[i]) {
+      return true;
     }
+  }
 
-    return false;
-}
+  return false;
+};
 
 Util.shuffle = function (array) {
-    var newarr = [];
-    var currentIndex = array.length,
-        temporaryValue,
-        randomIndex;
+  var newarr = [];
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
 
-    while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        newarr[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    newarr[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-    return newarr;
-}
+  return newarr;
+};
 
 Util.capitalise_string = function (stringinput) {
-    var string_old = stringinput;
-    var new_string = "";
+  var string_old = stringinput;
+  var new_string = "";
 
-    if (stringinput) {
-        var names = stringinput.split(" ");
+  if (stringinput) {
+    var names = stringinput.split(" ");
 
-        if (names.length > 1) {
+    if (names.length > 1) {
+      for (var i = 0; i < names.length; i++) {
+        new_string +=
+          names[i][0].toUpperCase() + names[i].slice(1).toLowerCase() + " ";
+      }
 
-            for (var i = 0; i < names.length; i++) {
-                new_string += names[i][0].toUpperCase() + names[i].slice(1).toLowerCase() + " ";
-            }
-
-            new_string = new_string.substring(0, new_string.length - 1);
-        } else {
-            new_string = string_old[0].toUpperCase() + string_old.slice(1).toLowerCase();
-        }
-
-        return new_string;
+      new_string = new_string.substring(0, new_string.length - 1);
     } else {
-        return stringinput;
+      new_string =
+        string_old[0].toUpperCase() + string_old.slice(1).toLowerCase();
     }
-}
+
+    return new_string;
+  } else {
+    return stringinput;
+  }
+};
 
 Util.term_is_capitalised = function (stringinput) {
-    if (stringinput[0] == stringinput[0].toUpperCase()) {
-        return true;
-    } else {
-        return false;
-    }
-}
+  if (stringinput[0] == stringinput[0].toUpperCase()) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 Util.get_term_beginning = function (stringinput) {
-    var punctuation = ['[', '.', ',', '/', '#', '!', '$', '%', '&', '*', ';', ':', '{', '}', '=', '-', '_', '`', '~', '(', ')', ']'];
-    var first_char = stringinput[0];
-    var terminator;
-    if (Util.inArray(first_char, punctuation) == true) {
-        terminator = first_char;
-    } else {
-        terminator = '';
-    }
+  var punctuation = [
+    "[",
+    ".",
+    ",",
+    "/",
+    "#",
+    "!",
+    "$",
+    "%",
+    "&",
+    "*",
+    ";",
+    ":",
+    "{",
+    "}",
+    "=",
+    "-",
+    "_",
+    "`",
+    "~",
+    "(",
+    ")",
+    "]",
+  ];
+  var first_char = stringinput[0];
+  var terminator;
+  if (Util.inArray(first_char, punctuation) == true) {
+    terminator = first_char;
+  } else {
+    terminator = "";
+  }
 
-    return terminator;
-}
+  return terminator;
+};
 
 Util.get_term_terminator = function (stringinput) {
-    var punctuation = ['[', '.', ',', '/', '#', '!', '$', '%', '&', '*', ';', ':', '{', '}', '=', '-', '_', '`', '~', '(', ')', ']'];
-    var last_char = stringinput[stringinput.length - 1];
-    var terminator;
-    if (Util.inArray(last_char, punctuation) == true) {
-        terminator = last_char;
-    } else {
-        terminator = '';
-    }
+  var punctuation = [
+    "[",
+    ".",
+    ",",
+    "/",
+    "#",
+    "!",
+    "$",
+    "%",
+    "&",
+    "*",
+    ";",
+    ":",
+    "{",
+    "}",
+    "=",
+    "-",
+    "_",
+    "`",
+    "~",
+    "(",
+    ")",
+    "]",
+  ];
+  var last_char = stringinput[stringinput.length - 1];
+  var terminator;
+  if (Util.inArray(last_char, punctuation) == true) {
+    terminator = last_char;
+  } else {
+    terminator = "";
+  }
 
-    return terminator;
-}
+  return terminator;
+};
 
 Util.remove_duplicates = function (array) {
-    var set = [];
+  var set = [];
 
-    for (var i = 0; i < array.length; i++) {
-        if (!Util.ident_inArray(array[i], set)) {
-            set.push(array[i]);
-        }
+  for (var i = 0; i < array.length; i++) {
+    if (!Util.ident_inArray(array[i], set)) {
+      set.push(array[i]);
     }
+  }
 
-    return set;
-}
+  return set;
+};
 
 Util.replace = function (input, elem, replace) {
-    var split = input.split(" ");
+  var split = input.split(" ");
 
-    for (var i = 0; i < split.length; i++) {
-        if (split[i] == elem) {
-            split[i] = replace;
-        }
+  for (var i = 0; i < split.length; i++) {
+    if (split[i] == elem) {
+      split[i] = replace;
     }
+  }
 
-    return split.join(" ");
-}
+  return split.join(" ");
+};
 
 // Source: https://stackoverflow.com/a/9862788
 Util.is_letter = function (str) {
-    return str.length === 1 && str.match(/[a-z]/i);
-}
+  return str.length === 1 && str.match(/[a-z]/i);
+};
 
 Util.remove_term_terminator = function (stringinput) {
-    var punctuation = ['[', '.', ',', '/', '#', '!', '$', '%', '&', '*', ';', ':', '{', '}', '=', '-', '_', '`', '~', '(', ')', ']'];
-    var last_char = stringinput[stringinput.length - 1];
-    var first_char = stringinput[0];
+  var punctuation = [
+    "[",
+    ".",
+    ",",
+    "/",
+    "#",
+    "!",
+    "$",
+    "%",
+    "&",
+    "*",
+    ";",
+    ":",
+    "{",
+    "}",
+    "=",
+    "-",
+    "_",
+    "`",
+    "~",
+    "(",
+    ")",
+    "]",
+  ];
+  var last_char = stringinput[stringinput.length - 1];
+  var first_char = stringinput[0];
 
-    if (Util.inArray(last_char, punctuation) == true) {
-        stringinput = stringinput.substring(0, stringinput.length - 1);
-    }
+  if (Util.inArray(last_char, punctuation) == true) {
+    stringinput = stringinput.substring(0, stringinput.length - 1);
+  }
 
-    if (Util.inArray(first_char, punctuation) == true) {
-        stringinput = stringinput.substring(1);
-    }
+  if (Util.inArray(first_char, punctuation) == true) {
+    stringinput = stringinput.substring(1);
+  }
 
-    return stringinput;
-}
+  return stringinput;
+};
 
 module.exports = Util;

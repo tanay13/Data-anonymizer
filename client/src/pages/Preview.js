@@ -12,12 +12,13 @@ const Preview = () => {
   const par = useLocation();
 
   const algo = par.state.algo;
+  const entities = par.state.entity;
 
   const [text, setText] = useState(" ");
 
   useEffect(() => {
     axios
-      .get(`/preview/${filename}/${algo}`)
+      .get(`/preview/${filename}/${algo}`, { params: { entities: entities } })
       .then((data) => {
         console.log(data);
         setText(data.data.dataOutput);
@@ -39,14 +40,16 @@ const Preview = () => {
     <>
       <div className={Styles.preview}>
         <h3>Preview of anonymized text of your file - {filename}</h3>
-        <PDFExport
-          ref={pdfExportComponent}
-          paperSize="A4"
-          margin={40}
-          fileName={`Anonymized File${new Date().getFullYear()}`}
-        >
-          <Textarea text={text} />
-        </PDFExport>
+        <div className={Styles.txtarea}>
+          <PDFExport
+            ref={pdfExportComponent}
+            paperSize="A4"
+            margin={40}
+            fileName={`Anonymized File${new Date().getFullYear()}`}
+          >
+            <Textarea text={text} />
+          </PDFExport>
+        </div>
         <LoadingButton
           onClick={exportPDFWithComponent}
           loadingPosition="start"

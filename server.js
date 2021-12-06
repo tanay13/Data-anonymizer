@@ -8,6 +8,8 @@ const app = express();
 
 app.use(fileUpload());
 
+app.use(express.json());
+
 //upload endpoint
 
 app.post("/upload", (req, res) => {
@@ -17,13 +19,19 @@ app.post("/upload", (req, res) => {
     });
 
   const file = req.files.file;
+
+  console.log(req.body.entity);
   file.mv(`${__dirname}/client/public/uploads/${file.name}`, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
     }
 
-    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+    res.json({
+      entity: req.body.entity,
+      fileName: file.name,
+      filePath: `/uploads/${file.name}`,
+    });
   });
 });
 
@@ -31,16 +39,20 @@ app.get("/preview/:filename/:algo", (req, res) => {
   var filename = req.params.filename;
   var algo = req.params.algo;
 
-  var entities = {
-    person: true,
-    organization: true,
-    currency: true,
-    date: true,
-    location: true,
-    pronoun: true,
-    numeric: true,
-    other: true,
-  };
+  console.log(req.query.entities);
+
+  // var entities = {
+  //   person: true,
+  //   organization: true,
+  //   currency: true,
+  //   date: true,
+  //   location: true,
+  //   pronoun: true,
+  //   numeric: true,
+  //   other: true,
+  // };
+
+  var entities = req.query.entities;
 
   let dataBuffer = fs.readFileSync(`./client/public/uploads/${filename}`);
 

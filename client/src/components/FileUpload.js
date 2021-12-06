@@ -4,7 +4,14 @@ import axios from "axios";
 import Message from "./Message";
 import Progress from "./Progress";
 import Styles from "./FileUpload.module.css";
+import Button from "@mui/material/Button";
+import PreviewIcon from "@mui/icons-material/Preview";
 import { Link } from "react-router-dom";
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 const FileUpload = () => {
   const p = useLocation();
@@ -24,6 +31,24 @@ const FileUpload = () => {
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
   const [algorithm, setAlgorithm] = useState("");
+
+  const [entities, setState] = React.useState({
+    person: true,
+    date: true,
+    pronoun: true,
+    numeric: true,
+    location: true,
+    organization: true,
+    currency: true,
+    other: true,
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...entities,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   useEffect(() => {
     if (p.pathname.slice(1) === "CPA")
@@ -45,12 +70,10 @@ const FileUpload = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(algorithm);
+
     const formData = new FormData();
 
     formData.append("file", file);
-
-    formData.append("algo", algorithm);
 
     try {
       const res = await axios.post("/upload", formData, {
@@ -64,7 +87,6 @@ const FileUpload = () => {
             )
           );
           // Clear percentage
-
           setTimeout(() => {
             setUploadPercentage(0);
           }, 10000);
@@ -92,7 +114,9 @@ const FileUpload = () => {
 
       <div className={Styles.container}>
         <h3> {header} </h3>
-        {message ? <Message msg={message} /> : null}
+        <div className={Styles.msg}>
+          {message ? <Message msg={message} /> : null}
+        </div>
         <form className={Styles.form} onSubmit={onSubmit}>
           <div className="custom-file mb-4">
             <input
@@ -115,30 +139,80 @@ const FileUpload = () => {
           />
         </form>
         {isuploaded ? (
-          <li>
+          <Button
+            className={Styles.preBut}
+            variant="outlined"
+            startIcon={<PreviewIcon />}
+          >
             <Link
               to={{
                 pathname: `/preview/${fileName}`,
-                state: { algo: algorithm },
+                state: { algo: algorithm, entity: entities },
               }}
             >
-              particular file
+              Preview text
             </Link>
-          </li>
+          </Button>
         ) : null}
-
-        {uploadedFile ? (
-          <div className="row mt-5">
-            <div className="col-md-6 m-auto">
-              <h3 className="text-center">{uploadedFile.fileName}</h3>
-              <image
-                style={{ width: "100%" }}
-                src={uploadedFile.filePath}
-                alt=""
-              />
-            </div>
-          </div>
-        ) : null}
+        <FormControl
+          className={Styles.switch}
+          component="fieldset"
+          variant="standard"
+        >
+          <FormLabel component="legend">Check entities to anonymize</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={entities.person}
+                  onChange={handleChange}
+                  name="person"
+                />
+              }
+              label="Person"
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={entities.date}
+                  onChange={handleChange}
+                  name="date"
+                />
+              }
+              label="Date"
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={entities.pronoun}
+                  onChange={handleChange}
+                  name="pronoun"
+                />
+              }
+              label="Pronoun"
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={entities.location}
+                  onChange={handleChange}
+                  name="location"
+                />
+              }
+              label="Location"
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={entities.numeric}
+                  onChange={handleChange}
+                  name="numeric"
+                />
+              }
+              label="Numeric"
+            />
+          </FormGroup>
+        </FormControl>
       </div>
     </Fragment>
   );
